@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.loss.loss &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="seprlhf.query_selection.buffer_v2 module" href="seprlhf.query_selection.buffer_v2.html" />
+    <link rel="prev" title="seprlhf.algorithms.ppo" href="seprlhf.algorithms.ppo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">seprlhf.loss.loss</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.loss.loss.PPOLoss"><code class="docutils literal notranslate"><span class="pre">PPOLoss</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.loss.loss.PPOLoss.forward"><code class="docutils literal notranslate"><span class="pre">PPOLoss.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.loss.loss.PreferenceLoss"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.loss.loss.PreferenceLoss.bradley_terry_model"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss.bradley_terry_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.loss.loss.PreferenceLoss.forward"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss.forward()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf.loss.loss</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/seprlhf.loss.loss.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-seprlhf.loss.loss">
+<span id="seprlhf-loss-loss"></span><h1>seprlhf.loss.loss<a class="headerlink" href="#module-seprlhf.loss.loss" title="Link to this heading"></a></h1>
+<section id="agents">
+<h2>Agents<a class="headerlink" href="#agents" title="Link to this heading"></a></h2>
+<p><em>Created on 01.12.2024 by Tobias Witte</em>
+<em>Copyright (C) 2024</em>
+<em>For COPYING and LICENSE details, please refer to the LICENSE file</em></p>
+<p>Various Loss/Reward Modules and Functions</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="seprlhf.loss.loss.PPOLoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">seprlhf.loss.loss.</span></span><span class="sig-name descname"><span class="pre">PPOLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip_coef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_vloss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ent_coef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf_coef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_adv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/loss/loss.html#PPOLoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.loss.loss.PPOLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>This function implements the loss copmutation for Proximal Policy optimization (PPO). Implemented as nn.Module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clip_coef</strong> (<em>float</em><em>, </em><em>optional</em>) – Clipping coefficient for the policy loss, prevents the probability ratio from becoming too large and createing updateds that would be too large, by default 0.2</p></li>
+<li><p><strong>clip_vloss</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether or not to apply clipping to the value function loss, by default True</p></li>
+<li><p><strong>ent_coef</strong> (<em>float</em><em>, </em><em>optional</em>) – Coefficient for the entropy loss, higher values: more exploration by penalizing policies that are to deterministic, by default 0.01</p></li>
+<li><p><strong>vf_coef</strong> (<em>float</em><em>, </em><em>optional</em>) – Coefficient for the value function loss. Weights the value function loss within the total loss computation by a factor, by default 0.5</p></li>
+<li><p><strong>norm_adv</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether to normalize the advantages before computing the policy loss, by default True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.loss.loss.PPOLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newlogprob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldlogprob</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">advantages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/seprlhf/loss/loss.html#PPOLoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.loss.loss.PPOLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Forward pass of the PPOLoss function module, this handles the loss computation. See “Retruns” section for a detailed view on the return values
+and how to use them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>newlogprob</strong> (<em>torch.Tensor</em>) – Log probabilities of actions taken under the current policy. (updated policy)</p></li>
+<li><p><strong>oldlogprob</strong> (<em>torch.Tensor</em>) – Log probabilities of actions taken under the previous policy. (old policy )</p></li>
+<li><p><strong>advantages</strong> (<em>torch.Tensor</em>) – Generalized Advantage Estimation (GAE) values, see compute_gae function in utils/value_estimation.py for more details.</p></li>
+<li><p><strong>newvalue</strong> (<em>torch.Tensor</em>) – Predicted state values under the current policy.</p></li>
+<li><p><strong>oldvalue</strong> (<em>torch.Tensor</em>) – Predicted state values under the old policy.</p></li>
+<li><p><strong>returns</strong> (<em>torch.Tensor</em>) – Target state values, usually computed as the sum of rewards plus discounted future returns.</p></li>
+<li><p><strong>entropy</strong> (<em>torch.Tensor</em>) – Entropy of the current policy, measure of randomness in the action distribution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, torch.Tensor, torch.Tensor]
+total loss (policy_loss, value_loss and entropy_loss),
+policy gradient loss (how well the new poliy improves action selection, of course based on the advantages),
+value function loss (how well the value estimates match the returns),
+entropy loss,
+logratio (log probs between the new and old polices -&gt; measure change in the policies)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor,</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="seprlhf.loss.loss.PreferenceLoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">seprlhf.loss.loss.</span></span><span class="sig-name descname"><span class="pre">PreferenceLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reward_models</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Module</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy_bonus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/loss/loss.html#PreferenceLoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.loss.loss.PreferenceLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Calculation for the PreferenceLoss. Calculate the reward for the Reward Model based on a set of preference pairs. The implementation features the capability of useing a reward model
+ensamble, to migate the influence of bad predictions, by averaging the final reward prediction of state/actions over the number of reward models.
+This implementation also features batched input, to efficiently predict the rewards for observation action pairs not only over multiple frames, but also batch up to batch_size preference pairs
+along  NOTE: Ensure the reward model and loss module are on the same device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reward_model</strong> (<em>nn.Module</em><em>, </em><em>List</em><em>[</em><em>nn.Module</em><em>]</em>) – Reward model (ensamble if more then one) that should be used for the reward calculation.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – Specify on which device the calculation should happen. If no value is given it will always run on a gpu if one is available.</p></li>
+<li><p><strong>entropy_bonus</strong> (<em>float</em><em>, </em><em>optional</em>) – This bonus helps with incentivizing the increased exploration needed, when dealing with a changing reward function, by defualt 0.01</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether or not the reward calculations should be normalized to have a standard deviation of 1, by default True</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Batch size, that specifies the max value of how many trajectory pairs can be packed into one batch.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>reward_model1 = RewardModel(envs=envs).to(device)
+reward_model2 = RewardModel(envs=envs).to(device)
+pref_loss = PreferenceLoss(</p>
+<blockquote>
+<div><p>reward_models=[reward_model1, reward_model2], device=device).to(device)</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.loss.loss.PreferenceLoss.bradley_terry_model">
+<span class="sig-name descname"><span class="pre">bradley_terry_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trajectory1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trajectory2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward_models</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Module</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/seprlhf/loss/loss.html#PreferenceLoss.bradley_terry_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.loss.loss.PreferenceLoss.bradley_terry_model" title="Link to this definition"></a></dt>
+<dd><p>This function is the core of the preference caluclation, it returns the softmax of which trajectory segment is preffered over the other one.
+The calculation is processed in a batched like manner, to speed up reward model training. This means you get prediction pairs in a stacked manner.
+This also follows the approach of fitting the reward prediction in “Deep Reinforcement Learning from Human Preferences” by Christiano et. al.: <a class="reference external" href="https://arxiv.org/pdf/1706.03741">https://arxiv.org/pdf/1706.03741</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trajectory1</strong> (<em>list</em><em>[</em><em>torch.Tensor</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Batch of first trajectories.</p></li>
+<li><p><strong>trajectory2</strong> (<em>list</em><em>[</em><em>torch.Tensor</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Batch of second trajectories.</p></li>
+<li><p><strong>reward_models</strong> (<em>Union</em><em>[</em><em>nn.Module</em><em>, </em><em>List</em><em>[</em><em>nn.Module</em><em>]</em><em>]</em>) – All reward models that should be used for the calculation/training.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Batched tensor each, with the softmax/prefernce predicionts of trajectory 1 over 2 and vice versa. Contains paired values in respect to the batch size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.loss.loss.PreferenceLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preference_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy_bonus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/seprlhf/loss/loss.html#PreferenceLoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.loss.loss.PreferenceLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate the preference reward over a Dataset of trajectories.
+Follows the implementation of 2.2.3 of “Deep Reinforcement Learning from Human Preferences”
+by Christiano et. al.: <a class="reference external" href="https://arxiv.org/pdf/1706.03741">https://arxiv.org/pdf/1706.03741</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>preference_pairs</strong> (<em>list</em>) – List containin tensors for trajectories and labels, size of list and shape of tensors: [(obs_action_1[0], obs_action_1[1], obs_action_2[0], obs_action_2[1], labels[0], labels[1]), …]</p></li>
+<li><p><strong>entropy_bonus</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether or not a entropy bonus should be applied. Set value during initalisation of this class, by default True</p></li>
+<li><p><strong>random_shuffle</strong> (<em>bool</em><em>, </em><em>optional</em>) – Wether or not the list of preference pairs should be suffled each time, to generate varying batches each time, defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the cross entropy loss for a batch of trajectory predictions and their assigned human or synthetic labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="seprlhf.algorithms.ppo.html" class="btn btn-neutral float-left" title="seprlhf.algorithms.ppo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seprlhf.query_selection.buffer_v2.html" class="btn btn-neutral float-right" title="seprlhf.query_selection.buffer_v2 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

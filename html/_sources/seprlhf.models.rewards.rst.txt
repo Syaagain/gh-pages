@@ -1,0 +1,9 @@
+seprlhf.models.rewards module
+-----------------------------
+
+.. automodule:: seprlhf.models.rewards
+   :members:
+   :undoc-members:
+   :special-members: __init__
+   :show-inheritance:
+

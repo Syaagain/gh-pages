@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.utils.util module &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="seprlhf.utils.gym module" href="seprlhf.utils.gym.html" />
+    <link rel="prev" title="seprlhf.query_selection.buffer_v2 module" href="seprlhf.query_selection.buffer_v2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">seprlhf.utils.util module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.utils.util.compute_mse"><code class="docutils literal notranslate"><span class="pre">compute_mse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.utils.util.compute_pearson_correlation"><code class="docutils literal notranslate"><span class="pre">compute_pearson_correlation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.utils.util.count_parameters"><code class="docutils literal notranslate"><span class="pre">count_parameters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.utils.util.create_reward_models"><code class="docutils literal notranslate"><span class="pre">create_reward_models()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf.utils.util module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/seprlhf.utils.util.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-seprlhf.utils.util">
+<span id="seprlhf-utils-util-module"></span><h1>seprlhf.utils.util module<a class="headerlink" href="#module-seprlhf.utils.util" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="seprlhf.utils.util.compute_mse">
+<span class="sig-prename descclassname"><span class="pre">seprlhf.utils.util.</span></span><span class="sig-name descname"><span class="pre">compute_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rm_rewards_flat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gt_rewards_flat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/utils/util.html#compute_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.utils.util.compute_mse" title="Link to this definition"></a></dt>
+<dd><p>Computes Mean Square Error between the flattened model rewards and ground truth rewards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rm_rewards_flat</strong> (<em>torch.Tensor</em>) – flattened tensor of reward model rewards</p></li>
+<li><p><strong>gt_rewards_flat</strong> (<em>torch.Tensor</em>) – flattened tensor of ground truth rewards</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mse</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="seprlhf.utils.util.compute_pearson_correlation">
+<span class="sig-prename descclassname"><span class="pre">seprlhf.utils.util.</span></span><span class="sig-name descname"><span class="pre">compute_pearson_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rm_rewards_flat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gt_rewards_flat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/utils/util.html#compute_pearson_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.utils.util.compute_pearson_correlation" title="Link to this definition"></a></dt>
+<dd><p>Computes Pearson Correlation between flattened reward model rewards and ground truth rewards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rm_rewards_flat</strong> (<em>torch.Tensor</em>) – flattened tensor of reward model rewards</p></li>
+<li><p><strong>gt_rewards_flat</strong> (<em>torch.Tensor</em>) – flattened tensor of ground truth rewards</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>correlation</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="seprlhf.utils.util.count_parameters">
+<span class="sig-prename descclassname"><span class="pre">seprlhf.utils.util.</span></span><span class="sig-name descname"><span class="pre">count_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/seprlhf/utils/util.html#count_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.utils.util.count_parameters" title="Link to this definition"></a></dt>
+<dd><p>Returns and print the total number of paramters for a given torch neural network model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>nn.Module</em>) – Pytorch model where the paramters count should take place.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of total trainable parameters of the passeed model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="seprlhf.utils.util.create_reward_models">
+<span class="sig-prename descclassname"><span class="pre">seprlhf.utils.util.</span></span><span class="sig-name descname"><span class="pre">create_reward_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_models</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">envs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/seprlhf/utils/util.html#create_reward_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.utils.util.create_reward_models" title="Link to this definition"></a></dt>
+<dd><p>Creates an ensamble of reward model and returns each created model with an individual Adam optimizer in a second list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_models</strong> (<em>int</em>) – Number of models in the Ensamble.</p></li>
+<li><p><strong>envs</strong> (<em>_type_</em>) – Gym vectorized environment.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – Device where the computations should take place.</p></li>
+<li><p><strong>args</strong> (<em>_type_</em>) – Args from the argparser, where the learning rate is stored as args.learning_rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List, List</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="seprlhf.query_selection.buffer_v2.html" class="btn btn-neutral float-left" title="seprlhf.query_selection.buffer_v2 module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seprlhf.utils.gym.html" class="btn btn-neutral float-right" title="seprlhf.utils.gym module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

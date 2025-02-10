@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.query_selection.buffer_v2 module &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="seprlhf.utils.util module" href="seprlhf.utils.util.html" />
+    <link rel="prev" title="seprlhf.loss.loss" href="seprlhf.loss.loss.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">seprlhf.query_selection.buffer_v2 module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label"><code class="docutils literal notranslate"><span class="pre">Buffer.compare_and_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label_hf"><code class="docutils literal notranslate"><span class="pre">Buffer.compare_and_label_hf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.get_obs_action"><code class="docutils literal notranslate"><span class="pre">Buffer.get_obs_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.reset"><code class="docutils literal notranslate"><span class="pre">Buffer.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.reshape"><code class="docutils literal notranslate"><span class="pre">Buffer.reshape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.reward_based_inds"><code class="docutils literal notranslate"><span class="pre">Buffer.reward_based_inds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.reward_based_sample"><code class="docutils literal notranslate"><span class="pre">Buffer.reward_based_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.sample"><code class="docutils literal notranslate"><span class="pre">Buffer.sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.query_selection.buffer_v2.Buffer.store"><code class="docutils literal notranslate"><span class="pre">Buffer.store()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf.query_selection.buffer_v2 module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/seprlhf.query_selection.buffer_v2.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-seprlhf.query_selection.buffer_v2">
+<span id="seprlhf-query-selection-buffer-v2-module"></span><h1>seprlhf.query_selection.buffer_v2 module<a class="headerlink" href="#module-seprlhf.query_selection.buffer_v2" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">seprlhf.query_selection.buffer_v2.</span></span><span class="sig-name descname"><span class="pre">Buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_envs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initializes the buffer with parameters for storing transitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obs_shape</strong> (<em>tuple</em>) – Shape of the observation space.</p></li>
+<li><p><strong>action_shape</strong> (<em>tuple</em>) – Shape of the action space.</p></li>
+<li><p><strong>max_size</strong> (<em>int</em>) – Maximum number of transitions the buffer can store.</p></li>
+<li><p><strong>device</strong> (<em>str</em><em> or </em><em>torch.device</em>) – Device for PyTorch tensors (e.g., ‘cpu’ or ‘cuda’).</p></li>
+<li><p><strong>n_envs</strong> (<em>int</em>) – Number of parallel environments.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.compare_and_label">
+<span class="sig-name descname"><span class="pre">compare_and_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seg_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.compare_and_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label" title="Link to this definition"></a></dt>
+<dd><p>Compares two batches of transitions based on their rewards and assigns labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seg_1</strong> (<em>tuple</em>) – First batch of transitions.</p></li>
+<li><p><strong>seg_2</strong> (<em>tuple</em>) – Second batch of transitions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Labels indicating which batch has higher or lower rewards.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.compare_and_label_hf">
+<span class="sig-name descname"><span class="pre">compare_and_label_hf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delete_videos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_loading_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.compare_and_label_hf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label_hf" title="Link to this definition"></a></dt>
+<dd><p>Compares video segments based on user preference and assigns labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delete_videos</strong> (<em>bool</em>) – Indicates whether to delete the video files and their parent directory after processing.</p></li>
+<li><p><strong>video_loading_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the directory containing video files to be processed. If None, no videos are processed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Labels indicating user preference for the video segments:</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.get_obs_action">
+<span class="sig-name descname"><span class="pre">get_obs_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.get_obs_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.get_obs_action" title="Link to this definition"></a></dt>
+<dd><p>Extracts and reshapes observations and actions from a segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seg</strong> (<em>tuple</em>) – A tuple containing the sampled observations, actions, …</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>obs_tensor: A reshaped tensor of observations with shape (trajectory_length, obs_dim).</p></li>
+<li><p>actions_tensor: A reshaped tensor of actions with shape (trajectory_length, act_dim).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the buffer by initializing the storage arrays.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.reshape">
+<span class="sig-name descname"><span class="pre">reshape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.reshape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.reshape" title="Link to this definition"></a></dt>
+<dd><p>Reshapes a multi-dimensional array for easier sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>arr</strong> (<em>np.ndarray</em>) – Input array to be reshaped.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reshaped array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.reward_based_inds">
+<span class="sig-name descname"><span class="pre">reward_based_inds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_preference_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.reward_based_inds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.reward_based_inds" title="Link to this definition"></a></dt>
+<dd><p>Selects segments based on entropy-like criteria and ranks them by cumulative rewards.
+This function samples random segments of data indices, calculates their cumulative rewards,
+and sorts them in ascending order based on the cumulative rewards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_preference_pairs</strong> (<em>int</em>) – The number of preference pairs to generate. Each pair corresponds to two segments.</p></li>
+<li><p><strong>num_segments</strong> (<em>int</em>) – The number of segments to sample for each preference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing:
+- idx_list: A list of indices sorted by cumulative reward.
+- segments: A list of sampled segment indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[list, list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.reward_based_sample">
+<span class="sig-name descname"><span class="pre">reward_based_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idxs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.reward_based_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.reward_based_sample" title="Link to this definition"></a></dt>
+<dd><p>Generates samples from the buffer using specified indices.</p>
+<p>This function reshapes internal buffers (if not already prepared) and yields samples
+corresponding to the provided indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>idxs</strong> (<em>list</em>) – A list of indices specifying which samples to retrieve.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>dict</em> – A dictionary containing the samples for the provided indices, including observations,
+actions, rewards, and other relevant data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.sample" title="Link to this definition"></a></dt>
+<dd><p>Samples batch of transitions from the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_segments</strong> (<em>int</em>) – Number of transitions in each sampled segment.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]</em> – Sequential batches of transitions containing observations, actions, rewards, log probabilities, and returns.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.query_selection.buffer_v2.Buffer.store">
+<span class="sig-name descname"><span class="pre">store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">done</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logprob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/query_selection/buffer_v2.html#Buffer.store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.query_selection.buffer_v2.Buffer.store" title="Link to this definition"></a></dt>
+<dd><p>Stores a new transition in the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obs</strong> (<em>np.ndarray</em>) – Current observation.</p></li>
+<li><p><strong>action</strong> (<em>np.ndarray</em>) – Action taken by the agent.</p></li>
+<li><p><strong>reward</strong> (<em>np.ndarray</em>) – Reward received after taking the action.</p></li>
+<li><p><strong>next_obs</strong> (<em>np.ndarray</em>) – Next observation after taking the action.</p></li>
+<li><p><strong>done</strong> (<em>np.ndarray</em>) – Flag indicating if the episode has terminated.</p></li>
+<li><p><strong>value</strong> (<em>torch.Tensor</em>) – Estimated value of the current state.</p></li>
+<li><p><strong>logprob</strong> (<em>torch.Tensor</em>) – Log probability of the action.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="seprlhf.loss.loss.html" class="btn btn-neutral float-left" title="seprlhf.loss.loss" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seprlhf.utils.util.html" class="btn btn-neutral float-right" title="seprlhf.utils.util module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.models.agents module &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="seprlhf.models.rewards module" href="seprlhf.models.rewards.html" />
+    <link rel="prev" title="Welcome to SEPRLHF’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">seprlhf.models.agents module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.models.agents.PPOAgent"><code class="docutils literal notranslate"><span class="pre">PPOAgent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.agents.PPOAgent.__init__"><code class="docutils literal notranslate"><span class="pre">PPOAgent.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.agents.PPOAgent.get_action_and_value"><code class="docutils literal notranslate"><span class="pre">PPOAgent.get_action_and_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.agents.PPOAgent.get_value"><code class="docutils literal notranslate"><span class="pre">PPOAgent.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.agents.PPOAgent.layer_init"><code class="docutils literal notranslate"><span class="pre">PPOAgent.layer_init()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf.models.agents module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/seprlhf.models.agents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-seprlhf.models.agents">
+<span id="seprlhf-models-agents-module"></span><h1>seprlhf.models.agents module<a class="headerlink" href="#module-seprlhf.models.agents" title="Link to this heading"></a></h1>
+<section id="agents">
+<h2>Agents<a class="headerlink" href="#agents" title="Link to this heading"></a></h2>
+<p><em>Created on 29.11.2024 by Tobias Witte</em>
+<em>Copyright (C) 2024</em>
+<em>For COPYING and LICENSE details, please refer to the LICENSE file</em></p>
+<p>Agent modules for RL-Tasks</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="seprlhf.models.agents.PPOAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">seprlhf.models.agents.</span></span><span class="sig-name descname"><span class="pre">PPOAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SyncVectorEnv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/models/agents.html#PPOAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.agents.PPOAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Init method for creating a PPO Agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>envs</strong> (<em>gym.vector.SyncVectorEnv</em>) – Gymnasiumd environment represented as vector.</p></li>
+<li><p><strong>init_layer</strong> (<em>bool</em>) – Whether or not the layers of the PPOAgent should be initialized like in PPO.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.agents.PPOAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SyncVectorEnv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/seprlhf/models/agents.html#PPOAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.agents.PPOAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Init method for creating a PPO Agent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>envs</strong> (<em>gym.vector.SyncVectorEnv</em>) – Gymnasiumd environment represented as vector.</p></li>
+<li><p><strong>init_layer</strong> (<em>bool</em>) – Whether or not the layers of the PPOAgent should be initialized like in PPO.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.agents.PPOAgent.get_action_and_value">
+<span class="sig-name descname"><span class="pre">get_action_and_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/models/agents.html#PPOAgent.get_action_and_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.agents.PPOAgent.get_action_and_value" title="Link to this definition"></a></dt>
+<dd><p>Returns probability distribution of actions at a specific observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor.</p></li>
+<li><p><strong>action</strong> (<em>Tuple</em><em>[</em><em>torch.Tensor</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – input action, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_type_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.agents.PPOAgent.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/seprlhf/models/agents.html#PPOAgent.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.agents.PPOAgent.get_value" title="Link to this definition"></a></dt>
+<dd><p>Return the value of the critic with a given input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the critic values, usually the max value of the</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.agents.PPOAgent.layer_init">
+<span class="sig-name descname"><span class="pre">layer_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Linear</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float64</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.4142135623730951</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_const</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Linear</span></span></span><a class="reference internal" href="_modules/seprlhf/models/agents.html#PPOAgent.layer_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.agents.PPOAgent.layer_init" title="Link to this definition"></a></dt>
+<dd><p>Weight initialization for the different layers, this will give them more resonable weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer</strong> (<em>torch.nn.Linear</em>) – Layer to be initialized.</p></li>
+<li><p><strong>std</strong> (<em>np.float64</em><em>, </em><em>optional</em>) – Value for initialization, by default np.sqrt(2)</p></li>
+<li><p><strong>bias_const</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for the bias initialization, by default 0.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a linear layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to SEPRLHF’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seprlhf.models.rewards.html" class="btn btn-neutral float-right" title="seprlhf.models.rewards module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

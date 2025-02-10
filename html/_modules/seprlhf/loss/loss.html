@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.loss.loss &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=316bd91c"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">seprlhf.loss.loss</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for seprlhf.loss.loss</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># pylint: disable=E1101</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Agents</span>
+<span class="sd">======</span>
+<span class="sd">*Created on 01.12.2024 by Tobias Witte*</span>
+<span class="sd">*Copyright (C) 2024*</span>
+<span class="sd">*For COPYING and LICENSE details, please refer to the LICENSE file*</span>
+
+<span class="sd">Various Loss/Reward Modules and Functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+
+<div class="viewcode-block" id="PPOLoss">
+<a class="viewcode-back" href="../../../seprlhf.loss.loss.html#seprlhf.loss.loss.PPOLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PPOLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clip_coef</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">clip_vloss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">ent_coef</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">vf_coef</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">norm_adv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function implements the loss copmutation for Proximal Policy optimization (PPO). Implemented as nn.Module.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        clip_coef : float, optional</span>
+<span class="sd">            Clipping coefficient for the policy loss, prevents the probability ratio from becoming too large and createing updateds that would be too large, by default 0.2</span>
+<span class="sd">        clip_vloss : bool, optional</span>
+<span class="sd">            Wether or not to apply clipping to the value function loss, by default True</span>
+<span class="sd">        ent_coef : float, optional</span>
+<span class="sd">            Coefficient for the entropy loss, higher values: more exploration by penalizing policies that are to deterministic, by default 0.01</span>
+<span class="sd">        vf_coef : float, optional</span>
+<span class="sd">            Coefficient for the value function loss. Weights the value function loss within the total loss computation by a factor, by default 0.5</span>
+<span class="sd">        norm_adv : bool, optional</span>
+<span class="sd">            Wether to normalize the advantages before computing the policy loss, by default True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PPOLoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clip_coef</span> <span class="o">=</span> <span class="n">clip_coef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clip_vloss</span> <span class="o">=</span> <span class="n">clip_vloss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ent_coef</span> <span class="o">=</span> <span class="n">ent_coef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vf_coef</span> <span class="o">=</span> <span class="n">vf_coef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_adv</span> <span class="o">=</span> <span class="n">norm_adv</span>
+
+<div class="viewcode-block" id="PPOLoss.forward">
+<a class="viewcode-back" href="../../../seprlhf.loss.loss.html#seprlhf.loss.loss.PPOLoss.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newlogprob</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">oldlogprob</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">advantages</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">newvalue</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">oldvalue</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">returns</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">entropy</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass of the PPOLoss function module, this handles the loss computation. See &quot;Retruns&quot; section for a detailed view on the return values</span>
+<span class="sd">        and how to use them.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        newlogprob : torch.Tensor</span>
+<span class="sd">            Log probabilities of actions taken under the current policy. (updated policy)</span>
+<span class="sd">        oldlogprob : torch.Tensor</span>
+<span class="sd">            Log probabilities of actions taken under the previous policy. (old policy )</span>
+<span class="sd">        advantages : torch.Tensor</span>
+<span class="sd">            Generalized Advantage Estimation (GAE) values, see compute_gae function in utils/value_estimation.py for more details.</span>
+<span class="sd">        newvalue : torch.Tensor</span>
+<span class="sd">            Predicted state values under the current policy.</span>
+<span class="sd">        oldvalue : torch.Tensor</span>
+<span class="sd">            Predicted state values under the old policy.</span>
+<span class="sd">        returns : torch.Tensor</span>
+<span class="sd">            Target state values, usually computed as the sum of rewards plus discounted future returns.</span>
+<span class="sd">        entropy : torch.Tensor</span>
+<span class="sd">            Entropy of the current policy, measure of randomness in the action distribution.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[torch.Tensor, torch.Tensor,</span>
+<span class="sd">            torch.Tensor, torch.Tensor, torch.Tensor]</span>
+<span class="sd">            total loss (policy_loss, value_loss and entropy_loss),</span>
+<span class="sd">            policy gradient loss (how well the new poliy improves action selection, of course based on the advantages),</span>
+<span class="sd">            value function loss (how well the value estimates match the returns),</span>
+<span class="sd">            entropy loss,</span>
+<span class="sd">            logratio (log probs between the new and old polices -&gt; measure change in the policies)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_adv</span><span class="p">:</span>
+            <span class="n">advantages</span> <span class="o">=</span> <span class="p">(</span><span class="n">advantages</span> <span class="o">-</span> <span class="n">advantages</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> \
+                <span class="p">(</span><span class="n">advantages</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+        <span class="n">logratio</span> <span class="o">=</span> <span class="n">newlogprob</span> <span class="o">-</span> <span class="n">oldlogprob</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">logratio</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span>
+        <span class="n">pg_loss1</span> <span class="o">=</span> <span class="o">-</span><span class="n">advantages</span> <span class="o">*</span> <span class="n">ratio</span>
+        <span class="n">pg_loss2</span> <span class="o">=</span> <span class="o">-</span><span class="n">advantages</span> <span class="o">*</span> \
+            <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_coef</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_coef</span><span class="p">)</span>
+        <span class="n">pg_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pg_loss1</span><span class="p">,</span> <span class="n">pg_loss2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">newvalue</span> <span class="o">=</span> <span class="n">newvalue</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_vloss</span><span class="p">:</span>
+            <span class="n">v_loss_unclipped</span> <span class="o">=</span> <span class="p">(</span><span class="n">newvalue</span> <span class="o">-</span> <span class="n">returns</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">v_clipped</span> <span class="o">=</span> <span class="n">oldvalue</span> <span class="o">+</span> \
+                <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">newvalue</span><span class="o">-</span><span class="n">oldvalue</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">clip_coef</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_coef</span><span class="p">)</span>
+            <span class="n">v_loss_clipped</span> <span class="o">=</span> <span class="p">(</span><span class="n">v_clipped</span> <span class="o">-</span> <span class="n">returns</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">v_loss_max</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v_loss_unclipped</span><span class="p">,</span> <span class="n">v_loss_clipped</span><span class="p">)</span>
+            <span class="n">v_loss</span> <span class="o">=</span> <span class="n">v_loss_max</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v_loss</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">newvalue</span> <span class="o">-</span> <span class="n">returns</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">entropy_loss</span> <span class="o">=</span> <span class="n">entropy</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="n">pg_loss</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ent_coef</span> <span class="o">*</span> <span class="n">entropy_loss</span> <span class="o">+</span> <span class="n">v_loss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vf_coef</span>
+
+        <span class="k">return</span> <span class="n">total_loss</span><span class="p">,</span> <span class="n">pg_loss</span><span class="p">,</span> <span class="n">v_loss</span><span class="p">,</span> <span class="n">entropy_loss</span><span class="p">,</span> <span class="n">logratio</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PreferenceLoss">
+<a class="viewcode-back" href="../../../seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreferenceLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reward_models</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]],</span> <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">entropy_bonus</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculation for the PreferenceLoss. Calculate the reward for the Reward Model based on a set of preference pairs. The implementation features the capability of useing a reward model</span>
+<span class="sd">        ensamble, to migate the influence of bad predictions, by averaging the final reward prediction of state/actions over the number of reward models.</span>
+<span class="sd">        This implementation also features batched input, to efficiently predict the rewards for observation action pairs not only over multiple frames, but also batch up to batch_size preference pairs</span>
+<span class="sd">        along  NOTE: Ensure the reward model and loss module are on the same device.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reward_model : nn.Module, List[nn.Module]</span>
+<span class="sd">            Reward model (ensamble if more then one) that should be used for the reward calculation.</span>
+<span class="sd">        device : torch.device</span>
+<span class="sd">            Specify on which device the calculation should happen. If no value is given it will always run on a gpu if one is available.</span>
+<span class="sd">        entropy_bonus: float, optional</span>
+<span class="sd">            This bonus helps with incentivizing the increased exploration needed, when dealing with a changing reward function, by defualt 0.01</span>
+<span class="sd">        normalize: bool, optional</span>
+<span class="sd">            Wether or not the reward calculations should be normalized to have a standard deviation of 1, by default True</span>
+<span class="sd">        batch_size:int, optional</span>
+<span class="sd">            Batch size, that specifies the max value of how many trajectory pairs can be packed into one batch.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        reward_model1 = RewardModel(envs=envs).to(device)</span>
+<span class="sd">        reward_model2 = RewardModel(envs=envs).to(device)</span>
+<span class="sd">        pref_loss = PreferenceLoss(</span>
+<span class="sd">            reward_models=[reward_model1, reward_model2], device=device).to(device)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">PreferenceLoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reward_models</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">reward_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">reward_models</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_models</span> <span class="o">=</span> <span class="n">reward_models</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entropy_bonus</span> <span class="o">=</span> <span class="n">entropy_bonus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">normalize</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span>
+                <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+<div class="viewcode-block" id="PreferenceLoss.bradley_terry_model">
+<a class="viewcode-back" href="../../../seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss.bradley_terry_model">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bradley_terry_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">trajectory2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">reward_models</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function is the core of the preference caluclation, it returns the softmax of which trajectory segment is preffered over the other one.</span>
+<span class="sd">        The calculation is processed in a batched like manner, to speed up reward model training. This means you get prediction pairs in a stacked manner.</span>
+<span class="sd">        This also follows the approach of fitting the reward prediction in &quot;Deep Reinforcement Learning from Human Preferences&quot; by Christiano et. al.: https://arxiv.org/pdf/1706.03741.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        trajectory1 : list[torch.Tensor, torch.Tensor]</span>
+<span class="sd">            Batch of first trajectories.</span>
+<span class="sd">        trajectory2 : list[torch.Tensor, torch.Tensor]</span>
+<span class="sd">            Batch of second trajectories.</span>
+<span class="sd">        reward_models : Union[nn.Module, List[nn.Module]]</span>
+<span class="sd">            All reward models that should be used for the calculation/training.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[torch.Tensor, torch.Tensor]</span>
+<span class="sd">            Batched tensor each, with the softmax/prefernce predicionts of trajectory 1 over 2 and vice versa. Contains paired values in respect to the batch size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_rewards_1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_rewards_2</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">reward_model</span> <span class="ow">in</span> <span class="n">reward_models</span><span class="p">:</span>
+            <span class="n">rewards_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">reward_model</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">act</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">trajectory1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trajectory1</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">rewards_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">reward_model</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">obs</span><span class="p">,</span> <span class="n">act</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">trajectory2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trajectory2</span><span class="p">[</span><span class="mi">1</span><span class="p">])])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+                <span class="n">std1</span> <span class="o">=</span> <span class="n">rewards_1</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span>
+                <span class="n">mean1</span> <span class="o">=</span> <span class="n">rewards_1</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">std2</span> <span class="o">=</span> <span class="n">rewards_2</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span>
+                <span class="n">mean2</span> <span class="o">=</span> <span class="n">rewards_2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">normalized_rewards_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">rewards_1</span> <span class="o">-</span> <span class="n">mean1</span><span class="p">)</span> <span class="o">/</span> <span class="n">std1</span>
+                <span class="n">normalized_rewards_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">rewards_2</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">)</span> <span class="o">/</span> <span class="n">std2</span>
+
+                <span class="n">all_rewards_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normalized_rewards_1</span><span class="p">)</span>
+                <span class="n">all_rewards_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normalized_rewards_2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">all_rewards_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rewards_1</span><span class="p">)</span>
+                <span class="n">all_rewards_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rewards_2</span><span class="p">)</span>
+
+        <span class="n">all_rewards_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">all_rewards_1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">all_rewards_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">all_rewards_2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">average_rewards_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_rewards_1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">average_rewards_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_rewards_2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">total_reward_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">average_rewards_1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">total_reward_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">average_rewards_2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">total_rewards</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">total_reward_1</span><span class="p">,</span> <span class="n">total_reward_2</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">prediction_r_1_2</span><span class="p">,</span> <span class="n">prediction_r_2_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span>
+            <span class="n">total_rewards</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">prediction_r_1_2</span><span class="p">,</span> <span class="n">prediction_r_2_1</span></div>
+
+
+<div class="viewcode-block" id="PreferenceLoss.forward">
+<a class="viewcode-back" href="../../../seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preference_pairs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">entropy_bonus</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to calculate the preference reward over a Dataset of trajectories.</span>
+<span class="sd">        Follows the implementation of 2.2.3 of &quot;Deep Reinforcement Learning from Human Preferences&quot;</span>
+<span class="sd">        by Christiano et. al.: https://arxiv.org/pdf/1706.03741.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        preference_pairs : list</span>
+<span class="sd">            List containin tensors for trajectories and labels, size of list and shape of tensors: [(obs_action_1[0], obs_action_1[1], obs_action_2[0], obs_action_2[1], labels[0], labels[1]), ...]</span>
+<span class="sd">        entropy_bonus: bool, optional</span>
+<span class="sd">            Wether or not a entropy bonus should be applied. Set value during initalisation of this class, by default True</span>
+<span class="sd">        random_shuffle: bool, optional</span>
+<span class="sd">            Wether or not the list of preference pairs should be suffled each time, to generate varying batches each time, defaults to True</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        torch.Tensor</span>
+<span class="sd">            Returns the cross entropy loss for a batch of trajectory predictions and their assigned human or synthetic labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cross_entropy_loss</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">random_shuffle</span><span class="p">:</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">preference_pairs</span><span class="p">)</span>
+
+        <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">preference_pairs</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">preference_pairs</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+            <span class="n">obs_1_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">actions_1_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">obs_2_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">actions_2_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">mu1_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+            <span class="n">mu2_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+
+            <span class="n">trajectory1_batch</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs_1_batch</span><span class="p">,</span> <span class="n">actions_1_batch</span><span class="p">]</span>
+            <span class="n">trajectory2_batch</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs_2_batch</span><span class="p">,</span> <span class="n">actions_2_batch</span><span class="p">]</span>
+
+            <span class="n">prediction_r_1_2</span><span class="p">,</span> <span class="n">prediction_r_2_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bradley_terry_model</span><span class="p">(</span>
+                <span class="n">trajectory1</span><span class="o">=</span><span class="n">trajectory1_batch</span><span class="p">,</span>
+                <span class="n">trajectory2</span><span class="o">=</span><span class="n">trajectory2_batch</span><span class="p">,</span>
+                <span class="n">reward_models</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reward_models</span>
+            <span class="p">)</span>
+
+            <span class="n">mu1_batch</span> <span class="o">=</span> <span class="n">mu1_batch</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">mu2_batch</span> <span class="o">=</span> <span class="n">mu2_batch</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">preference_t_batch</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">mu1_batch</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prediction_r_1_2</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mu2_batch</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prediction_r_2_1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">cross_entropy_loss</span> <span class="o">+=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">preference_t_batch</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">entropy_bonus</span><span class="p">:</span>
+            <span class="n">cross_entropy_loss</span> <span class="o">+=</span> <span class="n">entropy_bonus</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">cross_entropy_loss</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

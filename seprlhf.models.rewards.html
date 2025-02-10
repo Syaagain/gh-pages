@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf.models.rewards module &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="seprlhf.algorithms.train_v2 module" href="seprlhf.algorithms.train_v2.html" />
+    <link rel="prev" title="seprlhf.models.agents module" href="seprlhf.models.agents.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">seprlhf.models.rewards module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#seprlhf.models.rewards.RewardModel"><code class="docutils literal notranslate"><span class="pre">RewardModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.rewards.RewardModel.__init__"><code class="docutils literal notranslate"><span class="pre">RewardModel.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.rewards.RewardModel.forward"><code class="docutils literal notranslate"><span class="pre">RewardModel.forward()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seprlhf.models.rewards.RewardModel.layer_init"><code class="docutils literal notranslate"><span class="pre">RewardModel.layer_init()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf.models.rewards module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/seprlhf.models.rewards.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-seprlhf.models.rewards">
+<span id="seprlhf-models-rewards-module"></span><h1>seprlhf.models.rewards module<a class="headerlink" href="#module-seprlhf.models.rewards" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="seprlhf.models.rewards.RewardModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">seprlhf.models.rewards.</span></span><span class="sig-name descname"><span class="pre">RewardModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SyncVectorEnv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaky_alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.3,</span> <span class="pre">0.3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/models/rewards.html#RewardModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.rewards.RewardModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Reward model architecture to predict rewards for mujoco environments, input dimensions is the product of the single_observations_shape
+concatenated with the single_action_space_shape -&gt; meaning the model takes one observation/action pair at a given point in time as input,
+and predicts a singular value as predicted reward for the given pair. The leaky_alpha value can be adujusted as needed, the current value as well
+as the implmentations follows the paper: Deep reinforcement learning from human preferences, by Christiano et. al.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>envs</strong> (<em>gym.vector.SyncVectorEnv</em>) – Vectorized gym environment -&gt; Get state and action dimensions from here.</p></li>
+<li><p><strong>hidden_dim</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the hidden layers, higher number = more trainable parameters = deeper network, by default 64</p></li>
+<li><p><strong>leaky_alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for the leaky ReLUs alpha value, by default 0.01</p></li>
+<li><p><strong>dropout_ration</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Droput ratios that should be applied for the first and second layer after the activation function respetively.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.rewards.RewardModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">envs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SyncVectorEnv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaky_alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.3,</span> <span class="pre">0.3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/seprlhf/models/rewards.html#RewardModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.rewards.RewardModel.__init__" title="Link to this definition"></a></dt>
+<dd><p>Reward model architecture to predict rewards for mujoco environments, input dimensions is the product of the single_observations_shape
+concatenated with the single_action_space_shape -&gt; meaning the model takes one observation/action pair at a given point in time as input,
+and predicts a singular value as predicted reward for the given pair. The leaky_alpha value can be adujusted as needed, the current value as well
+as the implmentations follows the paper: Deep reinforcement learning from human preferences, by Christiano et. al.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>envs</strong> (<em>gym.vector.SyncVectorEnv</em>) – Vectorized gym environment -&gt; Get state and action dimensions from here.</p></li>
+<li><p><strong>hidden_dim</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of the hidden layers, higher number = more trainable parameters = deeper network, by default 64</p></li>
+<li><p><strong>leaky_alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for the leaky ReLUs alpha value, by default 0.01</p></li>
+<li><p><strong>dropout_ration</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Droput ratios that should be applied for the first and second layer after the activation function respetively.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.rewards.RewardModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/seprlhf/models/rewards.html#RewardModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.rewards.RewardModel.forward" title="Link to this definition"></a></dt>
+<dd><p>Feedforward function of the RewardModel -&gt; This function is used to predict the actual reward with the neural network,
+by concatenating the state and action value by the last dimension, this concatenates the two tensords along the individual features,
+while keeping the batch dimension and if present other dimensions the same.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> (<em>torch.Tensor</em>) – State of the environment at a specific point in time.</p></li>
+<li><p><strong>action</strong> (<em>torch.Tensor</em>) – An action taken with the current observation/state, provided in the previous variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted reward.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="seprlhf.models.rewards.RewardModel.layer_init">
+<span class="sig-name descname"><span class="pre">layer_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Linear</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float64</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.4142135623730951</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias_const</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Linear</span></span></span><a class="reference internal" href="_modules/seprlhf/models/rewards.html#RewardModel.layer_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seprlhf.models.rewards.RewardModel.layer_init" title="Link to this definition"></a></dt>
+<dd><p>Weight initialization for the different layers, this will give them more resonable weights. Same layer initialization as for
+the agent in standard PPO is used here. This surely can be optimized to enable better training from the start.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layer</strong> (<em>torch.nn.Linear</em>) – Layer to be initialized.</p></li>
+<li><p><strong>std</strong> (<em>np.float64</em><em>, </em><em>optional</em>) – Value for initialization, by default np.sqrt(2)</p></li>
+<li><p><strong>bias_const</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for the bias initialization, by default 0.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a linear layer, with adjusted initialization</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="seprlhf.models.agents.html" class="btn btn-neutral float-left" title="seprlhf.models.agents module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="seprlhf.algorithms.train_v2.html" class="btn btn-neutral float-right" title="seprlhf.algorithms.train_v2 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>seprlhf &mdash; SEPRLHF 07.02.2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=316bd91c"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SEPRLHF
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SEPRLHF</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">seprlhf</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="seprlhf">
+<h1>seprlhf<a class="headerlink" href="#seprlhf" title="Link to this heading"></a></h1>
+</section>
+<section id="seprlhf-algorithms">
+<h1>seprlhf.algorithms<a class="headerlink" href="#seprlhf-algorithms" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.ppo.html">seprlhf.algorithms.ppo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args"><code class="docutils literal notranslate"><span class="pre">Args</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.anneal_lr"><code class="docutils literal notranslate"><span class="pre">Args.anneal_lr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.batch_size"><code class="docutils literal notranslate"><span class="pre">Args.batch_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.capture_video"><code class="docutils literal notranslate"><span class="pre">Args.capture_video</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.clip_coef"><code class="docutils literal notranslate"><span class="pre">Args.clip_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.clip_vloss"><code class="docutils literal notranslate"><span class="pre">Args.clip_vloss</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.cuda"><code class="docutils literal notranslate"><span class="pre">Args.cuda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.ent_coef"><code class="docutils literal notranslate"><span class="pre">Args.ent_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.env_id"><code class="docutils literal notranslate"><span class="pre">Args.env_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.exp_name"><code class="docutils literal notranslate"><span class="pre">Args.exp_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.gae_lambda"><code class="docutils literal notranslate"><span class="pre">Args.gae_lambda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.gamma"><code class="docutils literal notranslate"><span class="pre">Args.gamma</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.hf_entity"><code class="docutils literal notranslate"><span class="pre">Args.hf_entity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.learning_rate"><code class="docutils literal notranslate"><span class="pre">Args.learning_rate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.max_grad_norm"><code class="docutils literal notranslate"><span class="pre">Args.max_grad_norm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.minibatch_size"><code class="docutils literal notranslate"><span class="pre">Args.minibatch_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.norm_adv"><code class="docutils literal notranslate"><span class="pre">Args.norm_adv</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.num_envs"><code class="docutils literal notranslate"><span class="pre">Args.num_envs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.num_iterations"><code class="docutils literal notranslate"><span class="pre">Args.num_iterations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.num_minibatches"><code class="docutils literal notranslate"><span class="pre">Args.num_minibatches</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.num_steps"><code class="docutils literal notranslate"><span class="pre">Args.num_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.save_model"><code class="docutils literal notranslate"><span class="pre">Args.save_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.seed"><code class="docutils literal notranslate"><span class="pre">Args.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.target_kl"><code class="docutils literal notranslate"><span class="pre">Args.target_kl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.torch_deterministic"><code class="docutils literal notranslate"><span class="pre">Args.torch_deterministic</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.total_timesteps"><code class="docutils literal notranslate"><span class="pre">Args.total_timesteps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.track"><code class="docutils literal notranslate"><span class="pre">Args.track</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.update_epochs"><code class="docutils literal notranslate"><span class="pre">Args.update_epochs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.upload_model"><code class="docutils literal notranslate"><span class="pre">Args.upload_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.vf_coef"><code class="docutils literal notranslate"><span class="pre">Args.vf_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.wandb_entity"><code class="docutils literal notranslate"><span class="pre">Args.wandb_entity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.ppo.html#seprlhf.algorithms.ppo.Args.wandb_project_name"><code class="docutils literal notranslate"><span class="pre">Args.wandb_project_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.algorithms.train_v2.html">seprlhf.algorithms.train_v2 module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args"><code class="docutils literal notranslate"><span class="pre">Args</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.anneal_lr"><code class="docutils literal notranslate"><span class="pre">Args.anneal_lr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.anneal_rm_lr"><code class="docutils literal notranslate"><span class="pre">Args.anneal_rm_lr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.batch_size"><code class="docutils literal notranslate"><span class="pre">Args.batch_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.capture_video"><code class="docutils literal notranslate"><span class="pre">Args.capture_video</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.clip_coef"><code class="docutils literal notranslate"><span class="pre">Args.clip_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.clip_vloss"><code class="docutils literal notranslate"><span class="pre">Args.clip_vloss</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.cuda"><code class="docutils literal notranslate"><span class="pre">Args.cuda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.delete_videos"><code class="docutils literal notranslate"><span class="pre">Args.delete_videos</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.dropout_ratio_rm"><code class="docutils literal notranslate"><span class="pre">Args.dropout_ratio_rm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.ensamble_size"><code class="docutils literal notranslate"><span class="pre">Args.ensamble_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.ent_coef"><code class="docutils literal notranslate"><span class="pre">Args.ent_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.env_id"><code class="docutils literal notranslate"><span class="pre">Args.env_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.exp_name"><code class="docutils literal notranslate"><span class="pre">Args.exp_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.gae_lambda"><code class="docutils literal notranslate"><span class="pre">Args.gae_lambda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.gamma"><code class="docutils literal notranslate"><span class="pre">Args.gamma</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.hf_entity"><code class="docutils literal notranslate"><span class="pre">Args.hf_entity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.human_feedback"><code class="docutils literal notranslate"><span class="pre">Args.human_feedback</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.init_agent"><code class="docutils literal notranslate"><span class="pre">Args.init_agent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.init_reward_model"><code class="docutils literal notranslate"><span class="pre">Args.init_reward_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.learning_rate"><code class="docutils literal notranslate"><span class="pre">Args.learning_rate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.matplotlib"><code class="docutils literal notranslate"><span class="pre">Args.matplotlib</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.max_episode_steps"><code class="docutils literal notranslate"><span class="pre">Args.max_episode_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.max_grad_norm"><code class="docutils literal notranslate"><span class="pre">Args.max_grad_norm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.minibatch_size"><code class="docutils literal notranslate"><span class="pre">Args.minibatch_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.norm_adv"><code class="docutils literal notranslate"><span class="pre">Args.norm_adv</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_envs"><code class="docutils literal notranslate"><span class="pre">Args.num_envs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_iterations"><code class="docutils literal notranslate"><span class="pre">Args.num_iterations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_minibatches"><code class="docutils literal notranslate"><span class="pre">Args.num_minibatches</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_preference_pairs"><code class="docutils literal notranslate"><span class="pre">Args.num_preference_pairs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_segments"><code class="docutils literal notranslate"><span class="pre">Args.num_segments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.num_steps"><code class="docutils literal notranslate"><span class="pre">Args.num_steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.pretrain"><code class="docutils literal notranslate"><span class="pre">Args.pretrain</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.pretrain_sample_ratio"><code class="docutils literal notranslate"><span class="pre">Args.pretrain_sample_ratio</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.random_sample"><code class="docutils literal notranslate"><span class="pre">Args.random_sample</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.reward_model_hidden_dim"><code class="docutils literal notranslate"><span class="pre">Args.reward_model_hidden_dim</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.rm_learning_rate"><code class="docutils literal notranslate"><span class="pre">Args.rm_learning_rate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.run_id"><code class="docutils literal notranslate"><span class="pre">Args.run_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.save_model"><code class="docutils literal notranslate"><span class="pre">Args.save_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.seed"><code class="docutils literal notranslate"><span class="pre">Args.seed</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.target_kl"><code class="docutils literal notranslate"><span class="pre">Args.target_kl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.torch_deterministic"><code class="docutils literal notranslate"><span class="pre">Args.torch_deterministic</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.total_num_preference_pairs"><code class="docutils literal notranslate"><span class="pre">Args.total_num_preference_pairs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.total_timesteps"><code class="docutils literal notranslate"><span class="pre">Args.total_timesteps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.track"><code class="docutils literal notranslate"><span class="pre">Args.track</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.update_epochs"><code class="docutils literal notranslate"><span class="pre">Args.update_epochs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.upload_model"><code class="docutils literal notranslate"><span class="pre">Args.upload_model</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.validation_ratio"><code class="docutils literal notranslate"><span class="pre">Args.validation_ratio</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.vf_coef"><code class="docutils literal notranslate"><span class="pre">Args.vf_coef</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.wandb_entity"><code class="docutils literal notranslate"><span class="pre">Args.wandb_entity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.algorithms.train_v2.html#seprlhf.algorithms.train_v2.Args.wandb_project_name"><code class="docutils literal notranslate"><span class="pre">Args.wandb_project_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="seprlhf-models">
+<h1>seprlhf.models<a class="headerlink" href="#seprlhf-models" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.agents.html">seprlhf.models.agents module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.models.agents.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.models.agents.html#seprlhf.models.agents.PPOAgent"><code class="docutils literal notranslate"><span class="pre">PPOAgent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.agents.html#seprlhf.models.agents.PPOAgent.__init__"><code class="docutils literal notranslate"><span class="pre">PPOAgent.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.agents.html#seprlhf.models.agents.PPOAgent.get_action_and_value"><code class="docutils literal notranslate"><span class="pre">PPOAgent.get_action_and_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.agents.html#seprlhf.models.agents.PPOAgent.get_value"><code class="docutils literal notranslate"><span class="pre">PPOAgent.get_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.agents.html#seprlhf.models.agents.PPOAgent.layer_init"><code class="docutils literal notranslate"><span class="pre">PPOAgent.layer_init()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.models.rewards.html">seprlhf.models.rewards module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.models.rewards.html#seprlhf.models.rewards.RewardModel"><code class="docutils literal notranslate"><span class="pre">RewardModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.rewards.html#seprlhf.models.rewards.RewardModel.__init__"><code class="docutils literal notranslate"><span class="pre">RewardModel.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.rewards.html#seprlhf.models.rewards.RewardModel.forward"><code class="docutils literal notranslate"><span class="pre">RewardModel.forward()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.models.rewards.html#seprlhf.models.rewards.RewardModel.layer_init"><code class="docutils literal notranslate"><span class="pre">RewardModel.layer_init()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="seprlhf-loss">
+<h1>seprlhf.loss<a class="headerlink" href="#seprlhf-loss" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.loss.loss.html">seprlhf.loss.loss</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.loss.loss.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.loss.loss.html#seprlhf.loss.loss.PPOLoss"><code class="docutils literal notranslate"><span class="pre">PPOLoss</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.loss.loss.html#seprlhf.loss.loss.PPOLoss.forward"><code class="docutils literal notranslate"><span class="pre">PPOLoss.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss.bradley_terry_model"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss.bradley_terry_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.loss.loss.html#seprlhf.loss.loss.PreferenceLoss.forward"><code class="docutils literal notranslate"><span class="pre">PreferenceLoss.forward()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="seprlhf-query-selection">
+<h1>seprlhf.query_selection<a class="headerlink" href="#seprlhf-query-selection" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html">seprlhf.query_selection.buffer_v2 module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer"><code class="docutils literal notranslate"><span class="pre">Buffer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label"><code class="docutils literal notranslate"><span class="pre">Buffer.compare_and_label()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.compare_and_label_hf"><code class="docutils literal notranslate"><span class="pre">Buffer.compare_and_label_hf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.get_obs_action"><code class="docutils literal notranslate"><span class="pre">Buffer.get_obs_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.reset"><code class="docutils literal notranslate"><span class="pre">Buffer.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.reshape"><code class="docutils literal notranslate"><span class="pre">Buffer.reshape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.reward_based_inds"><code class="docutils literal notranslate"><span class="pre">Buffer.reward_based_inds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.reward_based_sample"><code class="docutils literal notranslate"><span class="pre">Buffer.reward_based_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.sample"><code class="docutils literal notranslate"><span class="pre">Buffer.sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="seprlhf.query_selection.buffer_v2.html#seprlhf.query_selection.buffer_v2.Buffer.store"><code class="docutils literal notranslate"><span class="pre">Buffer.store()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="seprlhf-utils">
+<h1>seprlhf.utils<a class="headerlink" href="#seprlhf-utils" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.gym.html">seprlhf.utils.gym module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.gym.html#util-open-ai-gym">Util - Open AI Gym</a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.gym.html#seprlhf.utils.gym.make_gymnasium_env"><code class="docutils literal notranslate"><span class="pre">make_gymnasium_env()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.gym.html#seprlhf.utils.gym.render_actions"><code class="docutils literal notranslate"><span class="pre">render_actions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seprlhf.utils.util.html">seprlhf.utils.util module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.util.html#seprlhf.utils.util.compute_mse"><code class="docutils literal notranslate"><span class="pre">compute_mse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.util.html#seprlhf.utils.util.compute_pearson_correlation"><code class="docutils literal notranslate"><span class="pre">compute_pearson_correlation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.util.html#seprlhf.utils.util.count_parameters"><code class="docutils literal notranslate"><span class="pre">count_parameters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="seprlhf.utils.util.html#seprlhf.utils.util.create_reward_models"><code class="docutils literal notranslate"><span class="pre">create_reward_models()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Syanh Nguyen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

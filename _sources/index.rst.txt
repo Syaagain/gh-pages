@@ -1,0 +1,21 @@
+.. SEPRLHF documentation master file, created by
+   sphinx-quickstart on Fri Feb  7 22:31:26 2025.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to SEPRLHF's documentation!
+===================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   seprlhf.models.agents
+   seprlhf.models.rewards
+   seprlhf.algorithms.train_v2
+   seprlhf.algorithms.ppo
+   seprlhf.loss.loss
+   seprlhf.query_selection.buffer_v2
+   seprlhf.utils.util
+   seprlhf.utils.gym
+

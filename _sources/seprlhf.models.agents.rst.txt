@@ -1,0 +1,8 @@
+seprlhf.models.agents module
+----------------------------
+
+.. automodule:: seprlhf.models.agents
+   :members:
+   :special-members: __init__
+   :undoc-members:
+   :show-inheritance:
